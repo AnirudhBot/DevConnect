@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -18,6 +19,8 @@ import { registerRoute } from "../utils/APIroutes";
 const theme = createTheme();
 
 export default function SignUp() {
+  const navigate = useNavigate();
+
   const toastNotif = {
     position: "bottom-right",
     autoClose: 3000,
@@ -26,10 +29,10 @@ export default function SignUp() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const username = data.get("username");
-    const email = data.get("email");
-    const password = data.get("password");
+    const user = new FormData(event.currentTarget);
+    const username = user.get("username");
+    const email = user.get("email");
+    const password = user.get("password");
 
     if (username.length < 3) {
       toast.error("Username can't be less than 3 characters", toastNotif);
@@ -38,7 +41,7 @@ export default function SignUp() {
       toast.error("Password can't be less than 6 characters", toastNotif);
       return false;
     } else if (email === "" || !email.includes("@") || !email.includes(".")) {
-      toast.error("Email ID is required", toastNotif);
+      toast.error("Email ID is not valid", toastNotif);
       return false;
     }
 
@@ -47,6 +50,13 @@ export default function SignUp() {
       email,
       password,
     });
+
+    const data = response.data;
+    if (data.status === false) toast.error(data.msg, toastNotif);
+    if (data.status === true) {
+      localStorage.setItem("app-user", JSON.stringify(data.user));
+      navigate("/");
+    }
   };
 
   return (
