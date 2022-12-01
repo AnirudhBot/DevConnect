@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -10,13 +10,51 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import { loginRoute } from "../utils/APIroutes";
 
 const theme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem("app-user")) navigate("/");
+  }, []);
+
+  const toastNotif = {
+    position: "bottom-right",
+    autoClose: 3000,
+    pauseOnHover: true,
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const user = new FormData(event.currentTarget);
+    const email = user.get("email");
+    const password = user.get("password");
+
+    if (password === "") {
+      toast.error("Password is required", toastNotif);
+      return false;
+    } else if (email === "" || !email.includes("@") || !email.includes(".")) {
+      toast.error("Email ID is not valid", toastNotif);
+      return false;
+    }
+
+    const response = await axios.post(loginRoute, {
+      email,
+      password,
+    });
+
+    const data = response.data;
+    if (data.status === false) toast.error(data.msg, toastNotif);
+    if (data.status === true) {
+      localStorage.setItem("app-user", JSON.stringify(data.user));
+      navigate("/");
+    }
   };
 
   return (
@@ -81,6 +119,7 @@ export default function SignIn() {
           </Box>
         </Box>
       </Container>
+      <ToastContainer />
     </ThemeProvider>
   );
 }
