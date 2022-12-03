@@ -8,8 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import Fab from "@material-ui/core/Fab";
-import SendIcon from "@material-ui/icons/Send";
+import SendIcon from "@mui/icons-material/Send";
 import PersonIcon from "@mui/icons-material/Person";
 
 const useStyles = makeStyles({
@@ -18,7 +17,7 @@ const useStyles = makeStyles({
   },
   chatSection: {
     width: "100vw",
-    height: "100vh",
+    height: "100%",
     boxShadow: "none",
   },
   headBG: {
@@ -28,7 +27,7 @@ const useStyles = makeStyles({
     borderRight: "1px solid #e0e0e0",
   },
   messageArea: {
-    height: "80vh",
+    height: "80%",
     overflowY: "auto",
   },
 });
@@ -44,7 +43,7 @@ const Chat = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ height: "90vh" }}>
       <Grid container component={Paper} className={classes.chatSection}>
         <Grid item xs={3} className={classes.borderRight500}>
           <Grid item xs={12} style={{ padding: "10px" }}>
@@ -113,18 +112,16 @@ const Chat = () => {
             </ListItem>
           </List>
           <Divider />
-          <Grid container style={{ padding: "20px" }}>
+          <Grid container style={{padding: "20px 0 20px 20px"}}>
             <Grid item xs={11}>
               <TextField
                 id="outlined-basic-email"
-                label="Type your message"
+                placeholder="Type your message"
                 fullWidth
               />
             </Grid>
-            <Grid xs={1} align="right">
-              <Fab color="primary" aria-label="add">
-                <SendIcon />
-              </Fab>
+            <Grid xs={1} container justifyContent="center" alignItems="center">
+              <SendIcon style={{ cursor: "pointer" }} />
             </Grid>
           </Grid>
         </Grid>
