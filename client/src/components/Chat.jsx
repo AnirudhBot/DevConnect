@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -6,10 +6,9 @@ import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import TextField from "@material-ui/core/TextField";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import SendIcon from "@mui/icons-material/Send";
-import PersonIcon from "@mui/icons-material/Person";
+
+import MessageArea from "./MessageArea";
+import Contacts from "./Contacts";
 
 const useStyles = makeStyles({
   table: {
@@ -26,15 +25,12 @@ const useStyles = makeStyles({
   borderRight500: {
     borderRight: "1px solid #e0e0e0",
   },
-  messageArea: {
-    height: "80%",
-    overflowY: "auto",
-  },
 });
 
 const Chat = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+  const [currentChat, setCurrentChat] = useState(undefined);
 
   useEffect(() => {
     if (!localStorage.getItem("app-user")) {
@@ -56,74 +52,11 @@ const Chat = () => {
           </Grid>
           <Divider />
           <List>
-            <ListItem button key="RemySharp">
-              <PersonIcon sx={{ mr: 1 }} />
-              <ListItemText primary="Remy Sharp">Remy Sharp</ListItemText>
-            </ListItem>
-            <ListItem button key="Alice">
-              <PersonIcon sx={{ mr: 1 }} />
-              <ListItemText primary="Alice">Alice</ListItemText>
-            </ListItem>
+            <Contacts setCurrentChat={setCurrentChat} />
           </List>
         </Grid>
         <Grid item xs={9}>
-          <List
-            className={classes.messageArea}
-            style={{ paddingRight: "20px" }}
-          >
-            <ListItem key="1">
-              <Grid container>
-                <Grid item xs={12}>
-                  <ListItemText
-                    align="right"
-                    primary="Hey man, What's up ?"
-                  ></ListItemText>
-                </Grid>
-                <Grid item xs={12}>
-                  <ListItemText align="right" secondary="09:30"></ListItemText>
-                </Grid>
-              </Grid>
-            </ListItem>
-            <ListItem key="2">
-              <Grid container>
-                <Grid item xs={12}>
-                  <ListItemText
-                    align="left"
-                    primary="Hey, Iam Good! What about you ?"
-                  ></ListItemText>
-                </Grid>
-                <Grid item xs={12}>
-                  <ListItemText align="left" secondary="09:31"></ListItemText>
-                </Grid>
-              </Grid>
-            </ListItem>
-            <ListItem key="3">
-              <Grid container>
-                <Grid item xs={12}>
-                  <ListItemText
-                    align="right"
-                    primary="Cool. i am good, let's catch up!"
-                  ></ListItemText>
-                </Grid>
-                <Grid item xs={12}>
-                  <ListItemText align="right" secondary="10:30"></ListItemText>
-                </Grid>
-              </Grid>
-            </ListItem>
-          </List>
-          <Divider />
-          <Grid container style={{padding: "20px 0 20px 20px"}}>
-            <Grid item xs={11}>
-              <TextField
-                id="outlined-basic-email"
-                placeholder="Type your message"
-                fullWidth
-              />
-            </Grid>
-            <Grid xs={1} container justifyContent="center" alignItems="center">
-              <SendIcon style={{ cursor: "pointer" }} />
-            </Grid>
-          </Grid>
+          <MessageArea currentChat={currentChat} />
         </Grid>
       </Grid>
     </div>

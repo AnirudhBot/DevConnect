@@ -38,3 +38,13 @@ module.exports.login = async (req, res, next) => {
     next(error);
   }
 };
+
+module.exports.getContacts = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ _id: req.params.id });
+    const contacts = user.friends;
+    return res.json(contacts);
+  } catch (error) {
+    next(error);
+  }
+};
