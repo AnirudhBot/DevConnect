@@ -1,11 +1,13 @@
 const messageModel = require("../models/messageModel");
+const User = require("../models/userModel");
 
 module.exports.addMessage = async (req, res, next) => {
   try {
     const { from, to, message } = req.body;
+    const toUser = await User.findOne({ username: to });
     const data = await messageModel.create({
       message,
-      users: [from, to],
+      users: [from, toUser._id.toString()],
       sender: from,
     });
 
@@ -16,4 +18,26 @@ module.exports.addMessage = async (req, res, next) => {
   }
 };
 
-module.exports.getMessages = async (req, res, next) => {};
+module.exports.getMessages = async (req, res, next) => {
+  try {
+    const { from, to } = req.body;
+    const toUser = await User.findOne({ username: to });
+    const messages = await messageModel
+      .find({
+        users: {
+          $all: [from, toUser._id.toString()],
+        },
+      })
+      .sort({ updatedAt: 1 });
+
+    const finalMessages = messages.map((msg) => {
+      return {
+        fromSelf: msg.sender.toString() === from,
+        message: msg.message,
+      };
+    });
+    res.json(finalMessages);
+  } catch (error) {
+    next(error);
+  }
+};

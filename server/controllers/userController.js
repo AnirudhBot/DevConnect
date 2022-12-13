@@ -98,16 +98,23 @@ module.exports.getRequests = async (req, res, next) => {
 module.exports.acceptRequest = async (req, res, next) => {
   try {
     const { id, currUserId } = req.body;
-    const user = await User.findOne({ currUserId });
-    const acceptedIndex = user.requests.findIndex((object) => {
+    const acceptingUser = await User.findOne({ _id: currUserId });
+    const sendingUser = await User.findOne({ _id: id });
+    const acceptedIndex = acceptingUser.requests.findIndex((object) => {
       return object.id === id;
     });
-    const acceptedUser = user.requests.slice(acceptedIndex, 1);
+    const acceptedUser = acceptingUser.requests.slice(acceptedIndex, 1);
     const username = acceptedUser[0].username;
     const uid = acceptedUser[0].id;
-    user.friends.push({ username, id: uid });
-    user.requests.pull({ username, id: uid });
-    user.save();
+    acceptingUser.friends.push({ username, id: uid });
+    acceptingUser.requests.pull({ username, id: uid });
+    acceptingUser.save();
+
+    sendingUser.friends.push({
+      username: acceptingUser.username,
+      id: acceptingUser._id.toString(),
+    });
+    sendingUser.save();
     return res.json({ msg: "connected", status: true });
   } catch (error) {
     next(error);

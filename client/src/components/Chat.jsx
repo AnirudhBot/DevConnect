@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -6,9 +6,10 @@ import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import TextField from "@material-ui/core/TextField";
 import List from "@material-ui/core/List";
-
+import { io } from "socket.io-client";
 import MessageArea from "./MessageArea";
 import Contacts from "./Contacts";
+import { host } from "../utils/APIroutes";
 
 const useStyles = makeStyles({
   table: {
@@ -30,13 +31,25 @@ const useStyles = makeStyles({
 const Chat = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+  const socket = useRef();
+  const [currentUser, setCurrentUser] = useState(undefined);
   const [currentChat, setCurrentChat] = useState(undefined);
 
   useEffect(() => {
-    if (!localStorage.getItem("app-user")) {
-      navigate("/login");
-    }
+    const setUser = async () => {
+      if (!localStorage.getItem("app-user")) {
+        navigate("/login");
+      } else setCurrentUser(await JSON.parse(localStorage.getItem("app-user")));
+    };
+    setUser();
   }, []);
+
+  useEffect(() => {
+    if (currentUser) {
+      socket.current = io(host);
+      socket.current.emit("add-user", currentUser.username);
+    }
+  }, [currentUser]);
 
   return (
     <div style={{ height: "90vh" }}>
@@ -56,7 +69,7 @@ const Chat = () => {
           </List>
         </Grid>
         <Grid item xs={9}>
-          <MessageArea currentChat={currentChat} />
+          <MessageArea currentChat={currentChat} socket={socket} />
         </Grid>
       </Grid>
     </div>
