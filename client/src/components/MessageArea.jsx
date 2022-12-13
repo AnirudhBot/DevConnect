@@ -86,9 +86,21 @@ const MessageArea = ({ currentChat }) => {
     );
   } else {
     return (
-      <>
-        <p>loader</p>
-      </>
+      <div
+        style={{
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ textAlign: "center", fontSize: "1.5rem" }}>
+          Welcome
+          <br />
+          to
+          <br /> DevConnect!
+        </div>
+      </div>
     );
   }
 };

@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   friends: Array,
+  requests: Array,
 });
 
 const userModel = mongoose.model("users", userSchema);

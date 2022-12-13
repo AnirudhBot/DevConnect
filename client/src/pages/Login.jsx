@@ -44,12 +44,11 @@ export default function SignIn() {
       return false;
     }
 
-    const response = await axios.post(loginRoute, {
+    const { data } = await axios.post(loginRoute, {
       email,
       password,
     });
 
-    const data = response.data;
     if (data.status === false) toast.error(data.msg, toastNotif);
     if (data.status === true) {
       localStorage.setItem("app-user", JSON.stringify(data.user));
