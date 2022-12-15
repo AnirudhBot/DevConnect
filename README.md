@@ -1,6 +1,13 @@
 # DevConnect
 
 DevConnect is a <b>web platform</b> primarily developed for <b>professional networking</b> among the people in tech. It is an <b>anti-toxic</b> social media application where users can find other like minded folks, <b>connect</b>, <b>chat</b> and even setup <b>video meetings</b> for smoother 1:1 interactions, everything in a non-toxic environment.
+<br><br>
+<div align="center">
+<img width="520" src="https://user-images.githubusercontent.com/78658727/207816820-8c4381cf-dbc1-46e3-91e3-fb78ab7ba5ad.png">
+<img width="480" src="https://user-images.githubusercontent.com/78658727/207815963-5ea7b4ad-dffd-4e58-9064-1a5d1461810e.png">
+<img width="700" src="https://user-images.githubusercontent.com/78658727/207813689-aa9f40a9-635e-4030-9355-69bafb8802b2.png">
+</div>
+<br>
 
 ## 🚀 Key Features :-
 1. Secure Registeration and Login
