@@ -10,6 +10,8 @@ import Divider from "@material-ui/core/Divider";
 import { sendMessageRoute, getMessagesRoute } from "../utils/APIroutes";
 import { useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
+require("@tensorflow/tfjs");
+const toxicity = require("@tensorflow-models/toxicity");
 
 const MessageArea = ({ currentChat, socket }) => {
   const [message, setMessage] = useState("");
@@ -35,20 +37,40 @@ const MessageArea = ({ currentChat, socket }) => {
   };
 
   const sendMessageHandler = async () => {
-    await axios.post(sendMessageRoute, {
-      from: await JSON.parse(localStorage.getItem("app-user"))._id,
-      to: currentChat,
-      message,
-    });
-    await socket.current.emit("send-msg", {
-      from: await JSON.parse(localStorage.getItem("app-user")).username,
-      to: currentChat,
-      message,
-    });
-
     const msgs = [...chatMessages];
-    msgs.push({ fromSelf: true, message });
-    setChatMessages(msgs);
+    const user = await JSON.parse(localStorage.getItem("app-user"));
+
+    let index = 0;
+    const threshold = 0.9;
+    toxicity.load(threshold).then((model) => {
+      model.classify([message]).then((predictions) => {
+        for (let i = 0; i < predictions.length; i++) {
+          if (predictions[i].results[0].match === true) {
+            index = 1;
+            msgs.push({
+              fromSelf: true,
+              message: "Your message was not sent as it was found toxic!",
+            });
+            setChatMessages(msgs);
+            break;
+          }
+        }
+        if (index === 0) {
+          axios.post(sendMessageRoute, {
+            from: user._id,
+            to: currentChat,
+            message,
+          });
+          socket.current.emit("send-msg", {
+            from: user.username,
+            to: currentChat,
+            message,
+          });
+          msgs.push({ fromSelf: true, message });
+          setChatMessages(msgs);
+        }
+      });
+    });
 
     setMessage("");
   };
@@ -56,7 +78,6 @@ const MessageArea = ({ currentChat, socket }) => {
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-receive", (message) => {
-        console.log(message);
         setArrivalMessage({ fromSelf: false, message: message });
       });
     }
