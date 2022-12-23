@@ -25,7 +25,7 @@ const MessageArea = ({ currentChat, socket }) => {
       });
       setChatMessages(response.data);
     };
-    if (currentChat != undefined) {
+    if (currentChat !== undefined) {
       fetchMessages();
     }
   }, [currentChat]);
@@ -36,12 +36,12 @@ const MessageArea = ({ currentChat, socket }) => {
 
   const sendMessageHandler = async () => {
     await axios.post(sendMessageRoute, {
-      from: JSON.parse(localStorage.getItem("app-user"))._id,
+      from: await JSON.parse(localStorage.getItem("app-user"))._id,
       to: currentChat,
       message,
     });
-    socket.current.emit("send-msg", {
-      from: JSON.parse(localStorage.getItem("app-user")).username,
+    await socket.current.emit("send-msg", {
+      from: await JSON.parse(localStorage.getItem("app-user")).username,
       to: currentChat,
       message,
     });
@@ -56,6 +56,7 @@ const MessageArea = ({ currentChat, socket }) => {
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-receive", (message) => {
+        console.log(message);
         setArrivalMessage({ fromSelf: false, message: message });
       });
     }
@@ -73,8 +74,12 @@ const MessageArea = ({ currentChat, socket }) => {
     return (
       <>
         <List
-          style={{ paddingRight: "20px", height: "80%", overflowY: "auto" }}
-          class
+          style={{
+            paddingRight: "20px",
+            height: "80%",
+            overflowY: "auto",
+            backgroundColor: "#34d8eb",
+          }}
         >
           {chatMessages.map((message) => {
             return (
@@ -106,7 +111,13 @@ const MessageArea = ({ currentChat, socket }) => {
               onChange={handleMessageChange}
             />
           </Grid>
-          <Grid xs={1} container justifyContent="center" alignItems="center">
+          <Grid
+            item
+            xs={1}
+            container
+            justifyContent="center"
+            alignItems="center"
+          >
             <SendIcon
               style={{ cursor: "pointer" }}
               onClick={sendMessageHandler}
