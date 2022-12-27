@@ -4,10 +4,10 @@ import Chat from "../components/Chat";
 
 const Main = () => {
   return (
-    <>
+    <div style={{ display: "flex", flexFlow: "column", height: "100vh" }}>
       <Navbar />
       <Chat />
-    </>
+    </div>
   );
 };
 

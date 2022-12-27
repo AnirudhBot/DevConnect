@@ -16,9 +16,11 @@ const useStyles = makeStyles({
     minWidth: 650,
   },
   chatSection: {
-    width: "100vw",
     height: "100%",
     boxShadow: "none",
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
   },
   headBG: {
     backgroundColor: "#e0e0e0",
@@ -52,9 +54,18 @@ const Chat = () => {
   }, [currentUser]);
 
   return (
-    <div style={{ height: "90vh" }}>
-      <Grid container component={Paper} className={classes.chatSection}>
-        <Grid item xs={3} className={classes.borderRight500}>
+    <div
+      style={{
+        height: "90vh",
+      }}
+    >
+      <Grid component={Paper} className={classes.chatSection}>
+        <Grid
+          item
+          xs={3}
+          className={classes.borderRight500}
+          style={{ backgroundColor: "#a2f4fa" }}
+        >
           <Grid item xs={12} style={{ padding: "10px" }}>
             <TextField
               id="outlined-basic-email"

@@ -24,8 +24,8 @@ export default function Navbar() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, height: "10vh" }}>
-      <AppBar position="static">
+    <Box sx={{ height: "10vh", display: "flex", alignItems: "center" }}>
+      <AppBar position="static" style={{ height: "100%", justifyContent: "center" }}>
         <Toolbar>
           <Diversity1Icon fontSize="large" sx={{ mr: 2 }} />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

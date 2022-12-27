@@ -93,13 +93,12 @@ const MessageArea = ({ currentChat, socket }) => {
 
   if (currentChat) {
     return (
-      <>
+      <div style={{ display: "flex", flexFlow: "column", height: "90vh" }}>
         <List
           style={{
-            paddingRight: "20px",
-            height: "80%",
+            flexGrow: 1,
             overflowY: "auto",
-            backgroundColor: "#34d8eb",
+            margin: "10px 0"
           }}
         >
           {chatMessages.map((message) => {
@@ -122,14 +121,24 @@ const MessageArea = ({ currentChat, socket }) => {
           })}
         </List>
         <Divider />
-        <Grid container style={{ padding: "20px 0 20px 20px" }}>
-          <Grid item xs={11}>
+        <Grid container style={{ paddingLeft: "10px", height: "6rem" }}>
+          <Grid
+            item
+            xs={11}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <TextField
               id="outlined-basic-email"
               placeholder="Type your message"
               fullWidth
               value={message}
               onChange={handleMessageChange}
+              InputProps={{ disableUnderline: true }}
+              style={{border: "1px solid #1976d2", borderRadius: "5px", padding: "0 10px", }}
             />
           </Grid>
           <Grid
@@ -145,7 +154,7 @@ const MessageArea = ({ currentChat, socket }) => {
             />
           </Grid>
         </Grid>
-      </>
+      </div>
     );
   } else {
     return (
