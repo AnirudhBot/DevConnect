@@ -23,7 +23,7 @@ const Contacts = (props) => {
   };
 
   return (
-    <>
+    <div style={{ overflow: "auto" }}>
       {contacts.map((user) => {
         return (
           <ListItem button key={user.id} onClick={activeHandler}>
@@ -32,7 +32,7 @@ const Contacts = (props) => {
           </ListItem>
         );
       })}
-    </>
+    </div>
   );
 };
 

@@ -41,7 +41,7 @@ const Find = () => {
 
   const toastNotif = {
     position: "bottom-right",
-    autoClose: 3000,
+    autoClose: 2000,
     pauseOnHover: true,
   };
 
@@ -52,8 +52,12 @@ const Find = () => {
       currUserId,
       currUsername,
     });
-    if (data.status === true) toast.success(data.msg, toastNotif);
-    if (data.status === false) toast.error(data.msg, toastNotif);
+    if (data.status === "true") {
+      toast.success(data.msg, toastNotif);
+      e.target.textContent = "Requested";
+      e.target.disabled = true;
+    }
+    if (data.status === "false") toast.error(data.msg, toastNotif);
   };
 
   return (
@@ -69,7 +73,7 @@ const Find = () => {
             />
           </Grid>
           <Divider />
-          <List>
+          <List style={{ height: "55vh", overflowY: "auto" }}>
             {allUsers.map((user) => {
               return (
                 <ListItem key={user._id}>

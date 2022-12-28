@@ -50,7 +50,12 @@ const Requests = () => {
       id,
       currUserId,
     });
-    if (data.status === true) toast.success(data.msg, toastNotif);
+    console.log(data);
+    if (data.status === true) {
+      toast.success(data.msg, toastNotif);
+      e.target.textContent = "Connected";
+      e.target.disabled = true;
+    }
   };
 
   return (
@@ -66,7 +71,7 @@ const Requests = () => {
             />
           </Grid>
           <Divider />
-          <List>
+          <List style={{ height: "55vh", overflowY: "auto" }}>
             {allUsers.map((user) => {
               return (
                 <ListItem key={user.id} id={user.id}>

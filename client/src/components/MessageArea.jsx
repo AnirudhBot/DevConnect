@@ -36,6 +36,12 @@ const MessageArea = ({ currentChat, socket }) => {
     setMessage(event.target.value);
   };
 
+  const submitOnEnter = (event) => {
+    if (event.keyCode === 13 && message !== "") {
+      sendMessageHandler();
+    }
+  };
+
   const sendMessageHandler = async () => {
     const msgs = [...chatMessages];
     const user = await JSON.parse(localStorage.getItem("app-user"));
@@ -56,6 +62,8 @@ const MessageArea = ({ currentChat, socket }) => {
           }
         }
         if (index === 0) {
+          msgs.push({ fromSelf: true, message });
+          setChatMessages(msgs);
           axios.post(sendMessageRoute, {
             from: user._id,
             to: currentChat,
@@ -66,8 +74,6 @@ const MessageArea = ({ currentChat, socket }) => {
             to: currentChat,
             message,
           });
-          msgs.push({ fromSelf: true, message });
-          setChatMessages(msgs);
         }
       });
     });
@@ -98,7 +104,7 @@ const MessageArea = ({ currentChat, socket }) => {
           style={{
             flexGrow: 1,
             overflowY: "auto",
-            margin: "10px 0"
+            margin: "10px 0",
           }}
         >
           {chatMessages.map((message) => {
@@ -106,7 +112,13 @@ const MessageArea = ({ currentChat, socket }) => {
               <ListItem ref={scrollRef} key={uuidv4()}>
                 <Grid container>
                   <Grid item xs={12}>
-                    <ListItemText align={message.fromSelf ? "right" : "left"}>
+                    <ListItemText
+                      align={message.fromSelf ? "right" : "left"}
+                      style={{
+                        wordWrap: "break-word",
+                        padding: message.fromSelf ? "0 0 0 30%" : "0 30% 0 0",
+                      }}
+                    >
                       {message.message}
                     </ListItemText>
                   </Grid>
@@ -137,8 +149,13 @@ const MessageArea = ({ currentChat, socket }) => {
               fullWidth
               value={message}
               onChange={handleMessageChange}
+              onKeyDown={submitOnEnter}
               InputProps={{ disableUnderline: true }}
-              style={{border: "1px solid #1976d2", borderRadius: "5px", padding: "0 10px", }}
+              style={{
+                border: "1px solid #1976d2",
+                borderRadius: "5px",
+                padding: "0 10px",
+              }}
             />
           </Grid>
           <Grid

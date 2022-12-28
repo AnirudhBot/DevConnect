@@ -24,40 +24,45 @@ export default function Navbar() {
   };
 
   return (
-    <Box sx={{ height: "10vh", display: "flex", alignItems: "center" }}>
-      <AppBar position="static" style={{ height: "100%", justifyContent: "center" }}>
-        <Toolbar>
-          <Diversity1Icon fontSize="large" sx={{ mr: 2 }} />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            DevConnect
-          </Typography>
-          <Button color="inherit" onClick={handleFindOpen}>
-            Find
-          </Button>
-          <Modal
-            open={findOpen}
-            onClose={handleFindClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Find />
-          </Modal>
-          <Button color="inherit" onClick={handleRequestsOpen}>
-            Requests
-          </Button>
-          <Modal
-            open={requestsOpen}
-            onClose={handleRequestsClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Requests />
-          </Modal>
-          <Button color="inherit" onClick={handleLogout}>
-            Logout
-          </Button>
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <>
+      <Box sx={{ height: "10vh", display: "flex", alignItems: "center" }}>
+        <AppBar
+          position="static"
+          style={{ height: "100%", justifyContent: "center" }}
+        >
+          <Toolbar>
+            <Diversity1Icon fontSize="large" sx={{ mr: 2 }} />
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              DevConnect
+            </Typography>
+            <Button color="inherit" onClick={handleFindOpen}>
+              Find
+            </Button>
+            <Modal
+              open={findOpen}
+              onClose={handleFindClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Find />
+            </Modal>
+            <Button color="inherit" onClick={handleRequestsOpen}>
+              Requests
+            </Button>
+            <Modal
+              open={requestsOpen}
+              onClose={handleRequestsClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Requests />
+            </Modal>
+            <Button color="inherit" onClick={handleLogout}>
+              Logout
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
+    </>
   );
 }

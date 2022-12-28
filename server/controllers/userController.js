@@ -73,10 +73,14 @@ module.exports.sendRequest = async (req, res, next) => {
   try {
     const { username, currUserId, currUsername } = req.body;
     const user = await User.findOne({ username });
-    if (user.friends.includes(currUserId))
-      return res.json({ msg: "Existing connection", status: "false" });
-    if (user.requests.includes({ currUsername, currUserId }))
+    // if (user.friends.find(({ username }) => username === currUsername))
+    //   return res.json({ msg: "Existing connection", status: "false" });
+    if (user.requests.find(({ username }) => username === currUsername))
       return res.json({ msg: "Already requested", status: "false" });
+
+    const currUser = await User.findOne({ username: currUsername });
+    if (currUser.requests.find(({ username }) => username === username))
+      return res.json({ msg: "Check your Requests", status: "false" });
 
     user.requests.push({ username: currUsername, id: currUserId });
     user.save();
@@ -103,7 +107,7 @@ module.exports.acceptRequest = async (req, res, next) => {
     const acceptedIndex = acceptingUser.requests.findIndex((object) => {
       return object.id === id;
     });
-    const acceptedUser = acceptingUser.requests.slice(acceptedIndex, 1);
+    const acceptedUser = acceptingUser.requests.slice(acceptedIndex, acceptedIndex+1);
     const username = acceptedUser[0].username;
     const uid = acceptedUser[0].id;
     acceptingUser.friends.push({ username, id: uid });
