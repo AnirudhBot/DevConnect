@@ -26,15 +26,15 @@ DevConnect is a <b>web platform</b> primarily developed for <b>professional netw
 ## 📦 Get Started locally :-
 
 1. Fork this repository
-2. `git clone` your fork
-3. Open the local copy in your code editor
+2. `git clone` your fork to your system
+3. Open the cloned directory in your code editor
 4. Open the terminal and split it into two
 5. Run `cd server` and `cd client` in them
 6. Next run `npm i` in both the splits
-7. Create `.env` file in `server` directory and enter desired backend port and your DB url like :<br>
+7. Create `.env` file in `/server` directory and enter desired backend port and your MongoDB url link like :<br>
 <div align="center"><img width="299" alt="1" src="https://user-images.githubusercontent.com/78658727/207806130-c3ce90cc-a1a0-44d0-b379-d9df6dd8d453.PNG"></div>
 
-8. Lastly run `npm start` in both terminals and you will have the project up and running on `localhost:3000`
+8. Lastly run `npm start` in both terminals and you will have the project up and running on `localhost:3000` in your browser
 
 ## 🐛 Bug Reporting :-
 Feel free to <a href="https://github.com/AnirudhBot/DevConnect/issues">open an issue</a> on GitHub if you find any bug.
