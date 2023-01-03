@@ -103,9 +103,9 @@ const MessageArea = ({ currentChat, socket }) => {
       <div style={{ display: "flex", flexFlow: "column", height: "90vh" }}>
         <List
           style={{
-            flexGrow: 1,
+            height: "80vh",
             overflowY: "auto",
-            margin: "10px 0",
+            margin: "5px 0",
           }}
         >
           {chatMessages.map((message) => {
@@ -134,7 +134,7 @@ const MessageArea = ({ currentChat, socket }) => {
           })}
         </List>
         <Divider />
-        <Grid container style={{ paddingLeft: "10px", height: "20em" }}>
+        <Grid container style={{ paddingLeft: "10px", height: "10vh" }}>
           <Grid
             item
             xs={11}
