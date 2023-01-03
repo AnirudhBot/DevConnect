@@ -134,7 +134,7 @@ const MessageArea = ({ currentChat, socket }) => {
           })}
         </List>
         <Divider />
-        <Grid container style={{ paddingLeft: "10px", height: "6rem" }}>
+        <Grid container style={{ paddingLeft: "10px", height: "20em" }}>
           <Grid
             item
             xs={11}

@@ -28,14 +28,19 @@ export default function Navbar() {
       <Box sx={{ height: "10vh", display: "flex", alignItems: "center" }}>
         <AppBar
           position="static"
-          style={{ height: "100%", justifyContent: "center" }}
+          style={{
+            height: "100%",
+            justifyContent: "center",
+            backgroundColor: "#1976d2",
+            color: "#fff",
+          }}
         >
           <Toolbar>
             <Diversity1Icon fontSize="large" sx={{ mr: 2 }} />
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               DevConnect
             </Typography>
-            <Button color="inherit" onClick={handleFindOpen}>
+            <Button color="inherit" onClick={handleFindOpen} style={{padding: "6px 8px"}}>
               Find
             </Button>
             <Modal
@@ -46,7 +51,7 @@ export default function Navbar() {
             >
               <Find />
             </Modal>
-            <Button color="inherit" onClick={handleRequestsOpen}>
+            <Button color="inherit" onClick={handleRequestsOpen} style={{padding: "6px 8px"}}>
               Requests
             </Button>
             <Modal
@@ -57,7 +62,7 @@ export default function Navbar() {
             >
               <Requests />
             </Modal>
-            <Button color="inherit" onClick={handleLogout}>
+            <Button color="inherit" onClick={handleLogout} style={{padding: "6px 8px"}}>
               Logout
             </Button>
           </Toolbar>
