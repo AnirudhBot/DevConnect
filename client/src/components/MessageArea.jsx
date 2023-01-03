@@ -45,12 +45,12 @@ const MessageArea = ({ currentChat, socket }) => {
   const sendMessageHandler = async () => {
     const msgs = [...chatMessages];
     const user = await JSON.parse(localStorage.getItem("app-user"));
-
     let index = 0;
     const threshold = 0.9;
-    toxicity.load(threshold).then((model) => {
-      model.classify([message]).then((predictions) => {
-        for (let i = 0; i < predictions.length; i++) {
+    toxicity.load(threshold).then(async (model) => {
+      await model.classify([message]).then((predictions) => {
+        let i = 0;
+        while (i < predictions.length) {
           if (predictions[i].results[0].match === true) {
             index = 1;
             msgs.push({
@@ -60,34 +60,35 @@ const MessageArea = ({ currentChat, socket }) => {
             setChatMessages(msgs);
             break;
           }
+          i++;
         }
-        if (index === 0) {
-          msgs.push({ fromSelf: true, message });
-          setChatMessages(msgs);
-          axios.post(sendMessageRoute, {
-            from: user._id,
-            to: currentChat,
-            message,
-          });
-          socket.current.emit("send-msg", {
-            from: user.username,
-            to: currentChat,
-            message,
-          });
-        }
+        return;
       });
+      if (index === 0) {
+        msgs.push({ fromSelf: true, message });
+        setChatMessages(msgs);
+        socket.current.emit("send-msg", {
+          from: user.username,
+          to: currentChat,
+          message,
+        });
+        axios.post(sendMessageRoute, {
+          from: user._id,
+          to: currentChat,
+          message,
+        });
+      }
     });
-
     setMessage("");
   };
 
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-receive", (message) => {
-        setArrivalMessage({ fromSelf: false, message: message });
+        setArrivalMessage({ fromSelf: false, message });
       });
     }
-  }, []);
+  }, [socket.current]);
 
   useEffect(() => {
     arrivalMessage && setChatMessages((prev) => [...prev, arrivalMessage]);

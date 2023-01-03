@@ -22,6 +22,7 @@ module.exports.getMessages = async (req, res, next) => {
   try {
     const { from, to } = req.body;
     const toUser = await User.findOne({ username: to });
+    if (toUser == null) return {};
     const messages = await messageModel
       .find({
         users: {
