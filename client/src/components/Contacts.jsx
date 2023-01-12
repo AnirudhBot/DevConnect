@@ -8,6 +8,7 @@ import PersonIcon from "@mui/icons-material/Person";
 const Contacts = (props) => {
   const [contacts, setContacts] = useState([]);
 
+  //fetching and setting user contacts
   useEffect(() => {
     const fetchData = async () => {
       const currentUser = JSON.parse(localStorage.getItem("app-user"));

@@ -37,6 +37,7 @@ const Chat = () => {
   const [currentUser, setCurrentUser] = useState(undefined);
   const [currentChat, setCurrentChat] = useState(undefined);
 
+  //checking if user is logged in
   useEffect(() => {
     const setUser = async () => {
       if (!localStorage.getItem("app-user")) {
@@ -46,6 +47,7 @@ const Chat = () => {
     setUser();
   }, []);
 
+  //adding user to socket.io current users
   useEffect(() => {
     if (currentUser) {
       socket.current = io(host);

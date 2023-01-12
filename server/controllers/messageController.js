@@ -1,6 +1,7 @@
 const messageModel = require("../models/messageModel");
 const User = require("../models/userModel");
 
+//adding new message to the database
 module.exports.addMessage = async (req, res, next) => {
   try {
     const { from, to, message } = req.body;
@@ -18,6 +19,7 @@ module.exports.addMessage = async (req, res, next) => {
   }
 };
 
+//fetching chat messages from the database
 module.exports.getMessages = async (req, res, next) => {
   try {
     const { from, to } = req.body;

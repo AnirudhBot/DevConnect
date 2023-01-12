@@ -30,6 +30,7 @@ const server = app.listen(process.env.PORT, () => {
   console.log(`server running on ${process.env.PORT}`);
 });
 
+//socket.io serverside connection
 const io = socket(server, {
   cors: {
     origin: "https://devconnect-app.onrender.com",

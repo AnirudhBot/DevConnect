@@ -19,6 +19,7 @@ const MessageArea = ({ currentChat, socket }) => {
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const scrollRef = useRef();
 
+  //fetching past chat messages for current chat
   useEffect(() => {
     const fetchMessages = async () => {
       const response = await axios.post(getMessagesRoute, {
@@ -42,6 +43,7 @@ const MessageArea = ({ currentChat, socket }) => {
     }
   };
 
+  //sending message, toxicity check, updating chat messages
   const sendMessageHandler = async () => {
     const msgs = [...chatMessages];
     const user = await JSON.parse(localStorage.getItem("app-user"));
@@ -82,6 +84,7 @@ const MessageArea = ({ currentChat, socket }) => {
     setMessage("");
   };
 
+  //socket.io message receiving and chat updation
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-receive", (message) => {

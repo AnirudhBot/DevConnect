@@ -30,6 +30,8 @@ const Requests = () => {
   const [allUsers, setAllUsers] = useState([]);
   const currentUser = JSON.parse(localStorage.getItem("app-user"));
   const currUserId = currentUser._id;
+
+  //fetching pending connection requests for current user
   useEffect(() => {
     const fetchData = async () => {
       const { data } = await axios.get(`${getRequestsRoute}/${currUserId}`);

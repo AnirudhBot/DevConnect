@@ -31,6 +31,8 @@ const Find = () => {
   const currentUser = JSON.parse(localStorage.getItem("app-user"));
   const currUserId = currentUser._id;
   const currUsername = currentUser.username;
+
+  //fetching all platform users except friends
   useEffect(() => {
     const fetchData = async () => {
       const { data } = await axios.get(`${getAllUsersRoute}/${currUserId}`);
